@@ -4,43 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MonsterVolt Player</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background-color: #000;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-        video {
-            width: 100%;
-            height: 100%;
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            outline: none;
-        }
-    </style>
 </head>
-<body>
-
-    <video id="videoPlayer" controls playsinline autoplay></video>
+<body style="background-color: #000;">
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const fileId = urlParams.get('id');
-        const player = document.getElementById('videoPlayer');
 
         if (fileId) {
-            // Pixeldrain direct download stream link which bypasses standard restrictions
-            player.src = `https://pixeldrain.net/api/file/${fileId}?download`;
+            // Instantly redirect to Pixeldrain official video stream page
+            window.location.replace(`https://pixeldrain.net/u/${fileId}`);
         }
     </script>
 
