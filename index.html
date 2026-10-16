@@ -1,30 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MonsterVolt Player</title>
     <style>
-        body {
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+        body {
             background-color: #000;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow: hidden;
         }
         video {
-            width: 100%;
-            max-width: 900px;
-            max-height: 100vh;
+            width: 100vw;
+            height: 100vh;
+            max-width: 100%;
+            object-fit: contain;
             outline: none;
         }
     </style>
 </head>
 <body>
 
-    <video id="myPlayer" controls playsinline controlsList="nodownload"></video>
+    <video id="myPlayer" controls playsinline crossorigin="anonymous"></video>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -32,7 +37,18 @@
         const player = document.getElementById('myPlayer');
 
         if (fileId) {
-            player.src = `https://pixeldrain.net/api/file/${fileId}`;
+            // Pixeldrain direct API URL
+            const streamUrl = `https://pixeldrain.net/api/file/${fileId}`;
+            
+            // Set video source directly
+            player.src = streamUrl;
+            player.type = 'video/mp4';
+
+            // Auto-fallback if direct API gets blocked
+            player.onerror = function() {
+                console.log("Direct API blocked, retrying with fallback stream...");
+                player.src = `https://pixeldrain.net/api/file/${fileId}?download`;
+            };
         }
     </script>
 
