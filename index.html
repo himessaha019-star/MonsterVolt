@@ -29,7 +29,7 @@
 </head>
 <body>
 
-    <video id="myPlayer" controls playsinline crossorigin="anonymous"></video>
+    <video id="myPlayer" controls playsinline autoplay muted></video>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
@@ -37,16 +37,14 @@
         const player = document.getElementById('myPlayer');
 
         if (fileId) {
-            // Pixeldrain direct API URL
-            const streamUrl = `https://pixeldrain.net/api/file/${fileId}`;
+            // Corsproxy dynamic stream url
+            const streamUrl = `https://corsproxy.io/?url=${encodeURIComponent('https://pixeldrain.net/api/file/' + fileId)}`;
             
-            // Set video source directly
             player.src = streamUrl;
-            player.type = 'video/mp4';
 
-            // Auto-fallback if direct API gets blocked
+            // Direct API Fallback if Proxy faces delay
             player.onerror = function() {
-                console.log("Direct API blocked, retrying with fallback stream...");
+                console.log("Proxy failed, falling back to direct download link...");
                 player.src = `https://pixeldrain.net/api/file/${fileId}?download`;
             };
         }
